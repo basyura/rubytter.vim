@@ -1,6 +1,10 @@
 
 
 function! s:list_statuses()
+  let rest = rubytter#mentions()
+  for v in rest
+    echo v.user.screen_name . ":" . v.text
+  endfor
   let rest = rubytter#list_statuses('basyura' , 'all')
   for v in rest
     echo v.user.screen_name . ":" . v.text
