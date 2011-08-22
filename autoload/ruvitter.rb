@@ -21,6 +21,8 @@ class Ruvitter
   def method_missing(method , *args)
     parse(@client.__send__(method , *args))
   end
+
+  private
   #
   #
   def parse(tweets)
@@ -35,14 +37,14 @@ class Ruvitter
       else
         buf << ","
       end
-      buf << parse_tweet(tweet)
+      buf << parse_hash(tweet)
     end
     buf << "]"
     buf
   end
   #
   #
-  def parse_tweet(tweet)
+  def parse_hash(tweet)
     buf = "{"
     first = true
     tweet.each_pair do |key , value|
