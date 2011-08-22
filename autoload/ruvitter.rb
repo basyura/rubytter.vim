@@ -1,5 +1,4 @@
 require 'rubytter'
-require 'yaml'
 
 class Ruvitter
   #
