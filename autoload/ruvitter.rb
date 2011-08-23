@@ -27,7 +27,7 @@ class Ruvitter
   #
   def parse(tweets)
     if tweets.kind_of? Hash
-      return parse_tweet(tweets)
+      return parse_hash(tweets)
     end
     buf = "["
     first = true
@@ -55,7 +55,7 @@ class Ruvitter
       end
       buf << "'#{key}' : "
       if value.kind_of?(Hash) 
-        buf << parse_tweet(value)
+        buf << parse_hash(value)
       else
         buf << "'"
         buf << value.to_s.gsub("" , "").gsub("\n","").gsub("'" , "''")
