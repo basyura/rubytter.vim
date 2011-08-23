@@ -15,59 +15,40 @@ ruby << EOF
 EOF
 "
 "
-function! rubytter#list_statuses(user, list)
+function! s:invoke(method, ...)
 ruby << EOF
-  text = @client.list_statuses(
-    VIM.evaluate('a:user') ,
-    VIM.evaluate('a:list') ,
-  )
-  VIM.command("let tweets=#{text}")
+  method = VIM.evaluate("a:method")
+  args   = VIM.evaluate("a:000")
+  result = @client.__send__(method , *args)
+  VIM.command("let result = #{result}")
 EOF
-  return tweets
+  return result
+endfunction
+"
+"
+function! rubytter#list_statuses(user, list)
+  return s:invoke("list_statuses" , a:user , a:list)
 endfunction
 "
 "
 function! rubytter#friends_timeline()
-ruby << EOF
-  text = @client.friends_timeline
-  VIM.command("let result=#{text}")
-EOF
-  return result
+  return s:invoke("friends_timeline")
 endfunction
 
 function! rubytter#mentions()
-ruby << EOF
-  text = @client.mentions
-  VIM.command("let result=#{text}")
-EOF
-  return result
+  return s:invoke("mentions")
 endfunction
 
 function! rubytter#update(msg)
-ruby << EOF
-  msg = VIM.evaluate("a:msg")
-  text = @client.update(msg)
-  VIM.command("let result=#{text}")
-EOF
-  return result
+  return s:invoke("update" , a:msg)
 endfunction
 
 function! rubytter#user(user)
-ruby << EOF
-  user = VIM.evaluate("a:user")
-  text = @client.user(user)
-  VIM.command("let result=#{text}")
-EOF
-  return result
+  return s:invoke("user" , a:user)
 endfunction
 
 function! rubytter#user_timeline(user)
-ruby << EOF
-  user = VIM.evaluate("a:user")
-  text = @client.user_timeline(user)
-  VIM.command("let result=#{text}")
-EOF
-  return result
+  return s:invoke("user_timeline" , a:user)
 endfunction
 "    # method name             path for API                    http method
 "    "
