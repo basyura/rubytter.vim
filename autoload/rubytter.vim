@@ -15,7 +15,7 @@ ruby << EOF
 EOF
 "
 "
-function! s:invoke(method, ...)
+function! rubytter#request(method, ...)
 ruby << EOF
   method = VIM.evaluate("a:method")
   args   = VIM.evaluate("a:000")
@@ -23,32 +23,6 @@ ruby << EOF
   VIM.command("let result = #{result}")
 EOF
   return result
-endfunction
-"
-"
-function! rubytter#list_statuses(user, list)
-  return s:invoke("list_statuses" , a:user , a:list)
-endfunction
-"
-"
-function! rubytter#friends_timeline()
-  return s:invoke("friends_timeline")
-endfunction
-
-function! rubytter#mentions()
-  return s:invoke("mentions")
-endfunction
-
-function! rubytter#update(msg)
-  return s:invoke("update" , a:msg)
-endfunction
-
-function! rubytter#user(user)
-  return s:invoke("user" , a:user)
-endfunction
-
-function! rubytter#user_timeline(user)
-  return s:invoke("user_timeline" , a:user)
 endfunction
 "    # method name             path for API                    http method
 "    "
