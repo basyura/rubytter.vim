@@ -11,10 +11,10 @@ rubytter#request(method , params ...)
 
 # options
 
-let g:rubytter_consumer_key        = '...'
-let g:rubytter_consumer_secret     = '...'
-let g:rubytter_access_token        = '...'
-let g:rubytter_access_token_secret = '...'
+- let g:rubytter_consumer_key        = '...'
+- let g:rubytter_consumer_secret     = '...'
+- let g:rubytter_access_token        = '...'
+- let g:rubytter_access_token_secret = '...'
 
 # samples
 
