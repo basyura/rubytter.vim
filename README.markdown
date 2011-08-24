@@ -7,7 +7,7 @@ rubytter.vim is a wrapper of rubytter.rb
 
 # api
 
-rubytter#request(method , params ...)
+    rubytter#request(method , params ...)
 
 # options
 
