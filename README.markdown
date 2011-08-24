@@ -23,16 +23,16 @@ rubytter.vim is a wrapper of rubytter.rb
 
     let tweets = rubytter#request("friends_timeline")
       
-    for v in tweets
-      echo v.user.screen_name . ' : ' . v.text
+    for val in tweets
+      echo val.user.screen_name . ' : ' . val.text
     endfor
 
 ## list timeline
 
     let tweets = rubytter#request("list_statuses" , "basyura" , "vim")
     
-    for v in tweets
-      echo v.user.screen_name . ' : ' . v.text
+    for val in tweets
+      echo val.user.screen_name . ' : ' . val.text
     endfor
 
 ## update
