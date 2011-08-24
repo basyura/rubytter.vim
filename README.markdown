@@ -3,6 +3,7 @@ rubytter.vim is a wrapper of rubytter.rb
 
 # dependencies
   - ruby >= 1.9.2
+  - rubytter.rb (http://rubygems.org/gems/rubytter)
   - the ruby interface to vim
 
 # api
