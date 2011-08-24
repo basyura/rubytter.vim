@@ -26,21 +26,13 @@ class Ruvitter
   #
   #
   def parse(tweets)
-    if tweets.kind_of? Hash
-      return parse_hash(tweets)
-    end
+    return parse_hash(tweets) if tweets.kind_of? Hash
     buf = "["
-    first = true
-    tweets.each do |tweet|
-      if first
-        first = false
-      else
-        buf << ","
-      end
+    tweets.each_with_index do |tweet , index|
+      buf << "," if index != 0
       buf << parse_hash(tweet)
     end
     buf << "]"
-    buf
   end
   #
   #
@@ -63,6 +55,5 @@ class Ruvitter
       end
     end
     buf << "}"
-    buf
   end
 end
