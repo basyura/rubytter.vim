@@ -11,32 +11,32 @@ rubytter#request(method , params ...)
 
 # options
 
-  let g:rubytter_consumer_key        = '...'
-  let g:rubytter_consumer_secret     = '...'
-  let g:rubytter_access_token        = '...'
-  let g:rubytter_access_token_secret = '...'
+    let g:rubytter_consumer_key        = '...'
+    let g:rubytter_consumer_secret     = '...'
+    let g:rubytter_access_token        = '...'
+    let g:rubytter_access_token_secret = '...'
 
 # samples
 
 ## friends timeline
 
-  let tweets = rubytter#request("friends_timeline")
-  
-  for v in tweets
-    echo v.user.screen_name . ' : ' . v.text
-  endfor
+    let tweets = rubytter#request("friends_timeline")
+      
+    for v in tweets
+      echo v.user.screen_name . ' : ' . v.text
+    endfor
 
 ## list timeline
 
-  let tweets = rubytter#request("list_statuses" , "basyura" , "vim")
-  
-  for v in tweets
-    echo v.user.screen_name . ' : ' . v.text
-  endfor
+    let tweets = rubytter#request("list_statuses" , "basyura" , "vim")
+    
+    for v in tweets
+      echo v.user.screen_name . ' : ' . v.text
+    endfor
 
 ## update
 
-  call rubytter#update("hello rubytter")
+    call rubytter#update("hello rubytter")
 
 # supported API
 
