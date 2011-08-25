@@ -19,6 +19,9 @@ function! rubytter#request(method, ...)
 ruby << EOF
   method = VIM.evaluate("a:method")
   args   = VIM.evaluate("a:000")
+  if args.length == 1 && args[0].kind_of?(Array)
+    args = args[0]
+  end
   result = @client.__send__(method , *args)
   VIM.command("let result = #{result}")
 EOF
