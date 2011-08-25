@@ -17,6 +17,10 @@ rubytter.vim is a wrapper of rubytter.rb
     let g:rubytter_access_token        = '...'
     let g:rubytter_access_token_secret = '...'
 
+# proxy
+
+you need to set https_proxy or http_proxy as environment variable
+
 # samples
 
 ## friends timeline
@@ -104,3 +108,4 @@ these API are dependent on rubytter.rb
       list_following          /%s/%s/subscribers
       follow_list             /%s/%s/subscribers              post
       remove_list             /%s/%s/subscribers              delete
+
