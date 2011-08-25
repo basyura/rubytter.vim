@@ -4,17 +4,26 @@ class Ruvitter
   #
   #
   def initialize(config)
+    proxy = system_proxy
+    # create consumer
     consumer = OAuth::Consumer.new(
       config[:consumer_key]    ,
       config[:consumer_secret] ,
-      :site => 'https://api.twitter.com'
+      {
+        :site  => 'https://api.twitter.com' ,
+        :proxy => proxy ,
+      }
     )
+    # create token
     access_token = OAuth::AccessToken.new(
       consumer ,
       config[:access_token] ,
       config[:access_token_secret]
     )
-    @client = OAuthRubytter.new(access_token)
+    # create rubytter
+    option = {}
+    option.merge(:proxy_host => proxy.host , :proxy_port => proxy.port) if proxy
+    @client = OAuthRubytter.new(access_token , option)
   end
   #
   #
@@ -55,5 +64,14 @@ class Ruvitter
       end
     end
     buf << "}"
+  end
+  #
+  #
+  def system_proxy
+    proxy = ENV["https_proxy"] || ENV["http_proxy"]
+    if proxy
+      return proxy =~ /^http.*/ ? URI.parse(proxy) : URI.parse("https://#{proxy})")
+    end
+    nil
   end
 end
