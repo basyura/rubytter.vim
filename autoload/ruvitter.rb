@@ -70,7 +70,7 @@ class Ruvitter
   def system_proxy
     proxy = ENV["https_proxy"] || ENV["http_proxy"]
     if proxy
-      return proxy =~ /^http.*/ ? URI.parse(proxy) : URI.parse("https://#{proxy})")
+      return proxy =~ /^http.*/ ? URI.parse(proxy) : URI.parse("https://#{proxy}")
     end
     nil
   end
