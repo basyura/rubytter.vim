@@ -38,6 +38,7 @@ class Ruvitter
     return parse_hash(tweets) if tweets.kind_of? Hash
     buf = "["
     tweets.each_with_index do |tweet , index|
+      next unless tweet.kind_of? Hash
       buf << "," if index != 0
       buf << parse_hash(tweet)
     end
@@ -57,6 +58,8 @@ class Ruvitter
       buf << "'#{key}' : "
       if value.kind_of?(Hash) 
         buf << parse_hash(value)
+      elsif value.kind_of?(Array)
+        buf << parse(value)
       else
         buf << "'"
         buf << value.to_s.gsub("" , "").gsub("\n","").gsub("'" , "''")
