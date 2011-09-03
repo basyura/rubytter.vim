@@ -35,7 +35,15 @@ class Ruvitter
   #
   #
   def parse(tweets)
-    return parse_hash(tweets) if tweets.kind_of? Hash
+    if tweets.kind_of? Hash
+      parse_hash(tweets)
+    elsif tweets.kind_of? Array
+      parse_array(tweets)
+    end
+  end
+  #
+  #
+  def parse_array(tweets)
     buf = "["
     tweets.each_with_index do |tweet , index|
       next unless tweet.kind_of? Hash
