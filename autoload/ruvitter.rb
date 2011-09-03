@@ -35,10 +35,11 @@ class Ruvitter
   #
   #
   def parse(tweets)
-    if tweets.kind_of? Hash
-      parse_hash(tweets)
-    elsif tweets.kind_of? Array
-      parse_array(tweets)
+    case tweets
+      when Hash
+        parse_hash(tweets)
+      when Array
+        parse_array(tweets)
     end
   end
   #
@@ -58,20 +59,15 @@ class Ruvitter
     buf = "{"
     first = true
     tweet.each_pair do |key , value|
-      if first
-        first = false
-      else
-        buf << ","
-      end
+      first ? first = false : buf << ","
       buf << "'#{key}' : "
-      if value.kind_of?(Hash) 
-        buf << parse_hash(value)
-      elsif value.kind_of?(Array)
-        buf << parse(value)
-      else
-        buf << "'"
-        buf << value.to_s.gsub("" , "").gsub("\n","").gsub("'" , "''")
-        buf << "'"
+      case value
+        when Hash || Array
+          buf << parse(value)
+        else
+          buf << "'"
+          buf << value.to_s.gsub("" , "").gsub("\n","").gsub("'" , "''")
+          buf << "'"
       end
     end
     buf << "}"
