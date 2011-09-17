@@ -9,7 +9,7 @@ let s:rubytter = {}
 "
 "
 function! s:rubytter.__send__(method, param)
-  return call(self.request, [a:method] + a:param , self) 
+  return call(self[a:method], a:param , self) 
 endfunction
 "
 "
@@ -53,6 +53,6 @@ function! rubytter#request(method, ...)
         \ }
 
   let rubytter = rubytter#new(config)
-  return rubytter.__send__(a:method , a:000)
+  return rubytter.__send__('request', [a:method] + a:000)
 endfunction
 
