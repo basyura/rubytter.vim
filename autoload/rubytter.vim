@@ -19,17 +19,22 @@ ruby << EOF
   consumer_secret     = VIM.evaluate('self.config.consumer_secret')
   access_token        = VIM.evaluate('self.config.access_token')
   access_token_secret = VIM.evaluate('self.config.access_token_secret')
+  proxy               = VIM.evaluate('$http_proxy')
+
   client = Ruvitter.new({
     :consumer_key        => consumer_key    ,
     :consumer_secret     => consumer_secret ,
     :access_token        => access_token    ,
-    :access_token_secret => access_token_secret
+    :access_token_secret => access_token_secret ,
+    :proxy => proxy
   })
+
   method = VIM.evaluate("a:method")
   args   = VIM.evaluate("a:000")
   if args.length == 1 && args[0].kind_of?(Array)
     args = args[0]
   end
+
   result = client.__send__(method , *args)
   VIM.command("let result = #{result}")
 EOF

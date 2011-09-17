@@ -4,7 +4,7 @@ class Ruvitter
   #
   #
   def initialize(config)
-    proxy = system_proxy
+    proxy = to_uri(config[:proxy])
     # create consumer
     consumer = OAuth::Consumer.new(
       config[:consumer_key]    ,
@@ -74,9 +74,8 @@ class Ruvitter
   end
   #
   #
-  def system_proxy
-    proxy = ENV["https_proxy"] || ENV["http_proxy"]
-    if proxy
+  def to_uri(proxy)
+    if proxy && !proxy.empty?
       return proxy =~ /^http.*/ ? URI.parse(proxy) : URI.parse("https://#{proxy}")
     end
     nil
