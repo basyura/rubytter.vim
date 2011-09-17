@@ -5,11 +5,38 @@ ruby << EOF
 EOF
 "
 "
-let s:rubytter = {'request' : function('rubytter#request')}
+let s:rubytter = {}
 "
 "
-function! s:rubytter.request(method, ...)
-  return call('s:request' , [self.config , a:method] + a:000)
+"function! s:rubytter.__send__(method, ...)
+"  return call(self.request, a:000, self) 
+"endfunction
+"
+"
+function! s:rubytter.request(method, ... )
+ruby << EOF
+  consumer_key        = VIM.evaluate('self.config.consumer_key')
+  consumer_secret     = VIM.evaluate('self.config.consumer_secret')
+  access_token        = VIM.evaluate('self.config.access_token')
+  access_token_secret = VIM.evaluate('self.config.access_token_secret')
+  client = Ruvitter.new({
+    :consumer_key        => consumer_key    ,
+    :consumer_secret     => consumer_secret ,
+    :access_token        => access_token    ,
+    :access_token_secret => access_token_secret
+  })
+  method = VIM.evaluate("a:method")
+  args   = VIM.evaluate("a:000")
+  print "args   = #{args}"
+  if args.length == 1 && args[0].kind_of?(Array)
+    args = args[0]
+  end
+  print "method = #{method}"
+  print "args   = #{args}"
+  result = client.__send__(method , *args)
+  VIM.command("let result = #{result}")
+EOF
+  return result
 endfunction
 "
 "
@@ -28,31 +55,7 @@ function! rubytter#request(method, ...)
         \ 'access_token_secret' : g:rubytter_access_token_secret ,
         \ }
 
-  return call('s:request' , [config , a:method] + a:000)
-endfunction
-"
-"
-function! s:request(config, method, ... )
-  echoerr
-ruby << EOF
-  consumer_key        = VIM.evaluate('a:config.consumer_key')
-  consumer_secret     = VIM.evaluate('a:config.consumer_secret')
-  access_token        = VIM.evaluate('a:config.access_token')
-  access_token_secret = VIM.evaluate('a:config.access_token_secret')
-  client = Ruvitter.new({
-    :consumer_key        => consumer_key    ,
-    :consumer_secret     => consumer_secret ,
-    :access_token        => access_token    ,
-    :access_token_secret => access_token_secret
-  })
-  method = VIM.evaluate("a:method")
-  args   = VIM.evaluate("a:000")
-  if args.length == 1 && args[0].kind_of?(Array)
-    args = args[0]
-  end
-  result = client.__send__(method , *args)
-  VIM.command("let result = #{result}")
-EOF
-  return result
+  let rubytter = rubytter#new(config)
+  return call(rubytter.request, [a:method] + a:000, rubytter)
 endfunction
 
