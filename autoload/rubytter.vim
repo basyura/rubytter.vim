@@ -8,9 +8,9 @@ EOF
 let s:rubytter = {}
 "
 "
-"function! s:rubytter.__send__(method, ...)
-"  return call(self.request, a:000, self) 
-"endfunction
+function! s:rubytter.__send__(method, param)
+  return call(self.request, [a:method] + a:param , self) 
+endfunction
 "
 "
 function! s:rubytter.request(method, ... )
@@ -27,12 +27,9 @@ ruby << EOF
   })
   method = VIM.evaluate("a:method")
   args   = VIM.evaluate("a:000")
-  print "args   = #{args}"
   if args.length == 1 && args[0].kind_of?(Array)
     args = args[0]
   end
-  print "method = #{method}"
-  print "args   = #{args}"
   result = client.__send__(method , *args)
   VIM.command("let result = #{result}")
 EOF
@@ -56,6 +53,6 @@ function! rubytter#request(method, ...)
         \ }
 
   let rubytter = rubytter#new(config)
-  return call(rubytter.request, [a:method] + a:000, rubytter)
+  return rubytter.__send__(a:method , a:000)
 endfunction
 
